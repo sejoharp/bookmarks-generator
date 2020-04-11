@@ -1,6 +1,5 @@
 {:server         "imap-server-name"
- :address        "admin@domain.org"
  :username       "my-account-username"
  :password       "my-secret-password"
  :protocol       "imaps"
- :trusted-sender "my@address.com" "second@address.com"}
+ :trusted-sender ["my@address.com" "second@address.com"]}
