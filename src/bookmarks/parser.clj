@@ -4,7 +4,7 @@
             [clojure.tools.reader.edn :as edn]
             [clojure.string :as str]))
 
-(def configuration (edn/read-string (slurp "resources/configuration.clj")))
+(def configuration (edn/read-string (slurp "resources/configuration.edn")))
 
 (defn connection [configuration] (mailcore/store
                                    (:protocol configuration)

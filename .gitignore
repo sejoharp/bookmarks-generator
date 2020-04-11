@@ -12,4 +12,4 @@ pom.xml.asc
 .hg/
 /.idea/
 /bookmarks.iml
-/resources/configuration.clj
+/resources/configuration.edn
