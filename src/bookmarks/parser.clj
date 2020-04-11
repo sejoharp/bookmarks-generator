@@ -1,19 +1,19 @@
 (ns bookmarks.parser
-  (:require [clojure-mail.core :as mailcore]
+  (:require [clojure-mail.core :as mail]
             [clojure-mail.message :as message]
             [clojure.tools.reader.edn :as edn]
             [clojure.string :as str]))
 
 (def configuration (edn/read-string (slurp "resources/configuration.edn")))
 
-(defn connection [configuration] (mailcore/store
+(defn connection [configuration] (mail/store
                                    (:protocol configuration)
                                    (:server configuration)
                                    (:username configuration)
                                    (:password configuration)))
 
 (defn inbox-mails [connection]
-  (mailcore/inbox connection))
+  (mail/inbox connection))
 
 (defn read-mail [mail]
   (message/read-message mail :fields [:from :subject :body]))
