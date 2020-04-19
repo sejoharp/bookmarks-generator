@@ -41,8 +41,23 @@
 (defn trusted-sender? [sender trusted-sender]
   (some #(= sender %) trusted-sender))
 
-(defn valid-mail? [mail trusted-sender]
+(defn valid-sender? [mail trusted-sender]
   (-> (get mail :sender)
       (trusted-sender? trusted-sender)
       (boolean))
+  )
+
+(defn valid-link? [mail]
+  (as-> (get mail :link) element
+        (or
+          (str/starts-with? element "https://")
+          (str/starts-with? element "http://")
+          )
+        )
+  )
+
+(defn valid-name? [mail]
+  (as-> (get mail :name) name
+      (not (str/blank? name))
+      )
   )

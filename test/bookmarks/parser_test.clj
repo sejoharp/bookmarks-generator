@@ -18,6 +18,21 @@
                      :name   "Functional pipelines in Clojure - use pipelines to compose tasks"
                      :topic  "programming"})
 
+(def valid-link-mail {:sender "strange@address.de"
+                      :link   "http://youtu.be/JvGXyNXky0Q?list=PLaSn8eiZ631lrDFmUTBH9LFGzAxc3tvU4"
+                      :name   "Functional pipelines in Clojure - use pipelines to compose tasks"
+                      :topic  "programming"})
+
+(def invalid-name-mail {:sender "strange@address.de"
+                      :link   "http://youtu.be/JvGXyNXky0Q?list=PLaSn8eiZ631lrDFmUTBH9LFGzAxc3tvU4"
+                      :name   ""
+                      :topic  "programming"})
+
+(def invalid-link-mail {:sender "strange@address.de"
+                        :link   "youtu.be/JvGXyNXky0Q?list=PLaSn8eiZ631lrDFmUTBH9LFGzAxc3tvU4"
+                        :name   "Functional pipelines in Clojure - use pipelines to compose tasks"
+                        :topic  "programming"})
+
 (deftest parsing-email
   (testing "parses a mail"
     (is (=
@@ -38,10 +53,35 @@
 (deftest validating-sender
   (testing "detects valid sender"
     (is (=
-          (valid-mail? trusted-mail ["trusted@user.de"])
+          (valid-sender? trusted-mail ["trusted@user.de"])
           true)))
   (testing "detects invalid sender"
     (is (=
-          (valid-mail? untrusted-mail ["trusted@user.de"])
+          (valid-sender? untrusted-mail ["trusted@user.de"])
+          false)))
+  )
+
+(deftest validating-link
+  (testing "detects valid link"
+    (is (=
+          (valid-link? trusted-mail)
+          true))
+    (is (=
+          (valid-link? valid-link-mail)
+          true)))
+  (testing "detects invalid link"
+    (is (=
+          (valid-link? invalid-link-mail)
+          false)))
+  )
+
+(deftest validating-name
+  (testing "detects valid name"
+    (is (=
+          (valid-name? trusted-mail)
+          true)))
+  (testing "detects invalid name"
+    (is (=
+          (valid-name? invalid-name-mail)
           false)))
   )
