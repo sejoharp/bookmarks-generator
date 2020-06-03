@@ -39,6 +39,17 @@
                         :name   "Functional pipelines in Clojure - use pipelines to compose tasks"
                         :topic  "programming"})
 
+(def bookmarks {"python"           [{:link  "https://pbpython.com",
+                                     :name  "linkname1",
+                                     :topic "python"}
+                                    {:link  "https://realpython.com/",
+                                     :name  "linkname2",
+                                     :topic "python"}],
+                "machine learning" [{:link  "https://realpython.com/pandas-python-explore-dataset/",
+                                     :name  "linkname3",
+                                     :topic "machine learning"}]
+                })
+
 (deftest parsing-email
   (testing "parses a mail"
     (is (=
@@ -129,4 +140,13 @@
             :name   "Functional pipelines in Clojure - use pipelines to compose tasks"
             :sender "my@address.de"
             :topic  "programming"}])))
+  )
+(deftest bookmarks-to-markdown
+  (testing "transforms bookmarks to markdown"
+    (is (=
+          (to-markdown bookmarks)
+          "# python\n+ [linkname1](https://pbpython.com)\n+ [linkname2](https://realpython.com/)\n# machine learning\n+ [linkname3](https://realpython.com/pandas-python-explore-dataset/)\n"
+          )
+        )
+    )
   )

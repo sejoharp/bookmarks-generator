@@ -2,6 +2,7 @@
   (:require [clojure-mail.core :as mail]
             [clojure-mail.message :as message]
             [clojure.tools.reader.edn :as edn]
+            [marge.core :as marge]
             [clojure.string :as str]))
 
 (def configuration (edn/read-string (slurp "resources/configuration.edn")))
@@ -99,4 +100,23 @@
        (remove-untrusted-mails configuration)
        (map (fn [mail] (dissoc mail :sender)))
        (group-by :topic))
+  )
+
+(defn to-link [bookmark]
+  [:link {:text  (:name bookmark)
+          :title nil
+          :url   (:link bookmark)}])
+
+(defn to-topic [[topic bookmark-list]]
+  [:h1 topic
+   :ul (map to-link bookmark-list)]
+  )
+
+(defn to-markdown [bookmarks]
+  (->> bookmarks
+       (map to-topic)
+      ;(fn [topics] (println topics) topics)
+       (map marge/markdown)
+       (apply str)
+       )
   )
